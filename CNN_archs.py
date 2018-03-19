@@ -2,6 +2,7 @@
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Flatten, Conv2D, MaxPool2D, AveragePooling2D, MaxPooling2D
 
+a = 12
 
 #Medium post
 model_medium = Sequential()

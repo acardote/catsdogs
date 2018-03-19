@@ -10,7 +10,11 @@ from keras.optimizers import RMSprop
 from keras.callbacks import ReduceLROnPlateau
 from sklearn.metrics import confusion_matrix
 
+from CNN_archs import model_medium, model_AlexNet, model_LeNet5 
+
 import CNN_archs as CNN
+
+print CNN.a
 
 # Load the data
 TRAIN_DIR = 'train/'
@@ -56,11 +60,10 @@ X_train, X_val, Y_train, Y_val = train_test_split(X_train, Y_train, test_size = 
 # Define the optimizer
 optimizer = RMSprop(lr=0.001, rho=0.9, epsilon=1e-08, decay=0.0)
 
-
-model = CNN.model_medium
+model = model_medium
 
 # Compile the model
-CNN.model_medium.compile(optimizer = optimizer , loss = "binary_crossentropy", metrics=["accuracy"])
+model.compile(optimizer = optimizer , loss = "binary_crossentropy", metrics=["accuracy"])
 
 # Set a learning rate annealer
 learning_rate_reduction = ReduceLROnPlateau(monitor='val_acc', 
@@ -73,10 +76,10 @@ epochs = 5
 batch_size = 150
 
 # Without data augmentation i obtained an accuracy of 0.98114
-history = CNN.model_medium.fit(X_train, Y_train, batch_size = batch_size, epochs = epochs, 
+history = model.fit(X_train, Y_train, batch_size = batch_size, epochs = epochs, 
 				validation_data = (X_val, Y_val), verbose = 2, callbacks=[learning_rate_reduction])
 
-Y_pred = classifier.predict(X_val)
+Y_pred = model.predict(X_val)
 
 confusion_matrix(Y_val, Y_pred.round())
 
